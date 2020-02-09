@@ -2,8 +2,8 @@ import java.awt.*;
 
 public class Wynik {
     private Pilka pilka;
-    private final String fontName="TimesRoman";
-    private final int fontSize=28;
+    private final String FONT_NAME ="TimesRoman";
+    private final int FONT_SIZE =28;
     private int wynikGracza=0,wynikKomputera=0;
 
     public Wynik(Pilka pilka){
@@ -27,7 +27,7 @@ public class Wynik {
 
     public void rysujWynik(Graphics2D g2d,int szerokosc,int wysokosc) {
         stanWyniku();
-        g2d.setFont(new Font(fontName, Font.BOLD, fontSize));
+        g2d.setFont(new Font(FONT_NAME, Font.BOLD, FONT_SIZE));
         g2d.drawString(String.valueOf(wynikGracza), szerokosc / 4, wysokosc);
         g2d.drawString(String.valueOf(wynikKomputera), szerokosc - szerokosc / 4, wysokosc);
     }
