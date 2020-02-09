@@ -41,10 +41,10 @@ public class Board {
 
     private void kolizja() {
         if (pilka.getX() <= xGracza + szerokoscProstokata) {
-            if (pilka.getY() == gracz.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki == gracz.getY()) { pilka.odbijKrotkiBok();} // krotkie boki gracza
+            if (pilka.getY() == gracz.getY() + dlugoscProstokata || pilka.getY() + dlugoscPilki == gracz.getY()) { pilka.odbijKrotkiBok();} // krotkie boki gracza
             else if (pilka.getY() < gracz.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki > gracz.getY()) { pilka.odbijDlugiBok();}  // dlugie boki gracza
         } else if (pilka.getX() + szerokoscPilki >= xKomputera) {
-            if (pilka.getY() == komputer.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki == komputer.getY()) { pilka.odbijKrotkiBok(); }               // krotkie boki komputera
+            if (pilka.getY() == komputer.getY() + dlugoscProstokata || pilka.getY() + dlugoscPilki == komputer.getY()) { pilka.odbijKrotkiBok(); }               // krotkie boki komputera
             else if (pilka.getY() < komputer.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki > komputer.getY()) { pilka.odbijDlugiBok(); }           // dlugie boki komputera
         }
     }
