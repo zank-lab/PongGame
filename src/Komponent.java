@@ -8,13 +8,14 @@ import javax.swing.*;
 
 public class Komponent extends JComponent implements ActionListener, KeyListener {
 
-    private Timer timer = new Timer(10, this);
-    private Board gra;
+    private Timer timer;
+    private Plansza gra;
     private boolean pierwszeRozpoczecieGry = false;
     private boolean czyMoznaZrestartowac = false;
 
-    Komponent() {
-        gra = new Board(800, 600);
+    Komponent(int szerokosc, int wysokosc, int opoznienie) {
+        gra = new Plansza(szerokosc, wysokosc);
+        timer = new Timer(opoznienie, this);
         addKeyListener(this);
         setFocusable(true); // enable KeyListener
         setFocusTraversalKeysEnabled(false);
@@ -23,8 +24,8 @@ public class Komponent extends JComponent implements ActionListener, KeyListener
     @Override
     public void keyPressed(KeyEvent e) {
         int klawisz = e.getKeyCode();
-        if (klawisz == KeyEvent.VK_UP) { gra.setPredkoscGracz(-5); }
-        if (klawisz == KeyEvent.VK_DOWN) { gra.setPredkoscGracz(5); }
+        if (klawisz == KeyEvent.VK_UP) { gra.ruszProstokatemGracza(-1); }
+        if (klawisz == KeyEvent.VK_DOWN) { gra.ruszProstokatemGracza(1); }
         if (klawisz == KeyEvent.VK_ENTER && !pierwszeRozpoczecieGry) {
             timer.start();
             pierwszeRozpoczecieGry = true;
@@ -42,7 +43,12 @@ public class Komponent extends JComponent implements ActionListener, KeyListener
 
     @Override
     public void keyReleased(KeyEvent e) {
-        gra.setPredkoscGracz(0);
+        gra.ruszProstokatemGracza(0);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(800, 600);
     }
 
     @Override
@@ -59,11 +65,6 @@ public class Komponent extends JComponent implements ActionListener, KeyListener
             czyMoznaZrestartowac =true;
             timer.stop();
         }
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(800, 600);
     }
 
     @Override

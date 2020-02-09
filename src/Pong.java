@@ -25,6 +25,6 @@ public class Pong {
     }
 
     private void createUIComponents() {
-        komponent = new Komponent();
+        komponent = new Komponent(800,600,10);
     }
 }

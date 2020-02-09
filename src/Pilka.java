@@ -4,32 +4,28 @@ import java.util.Random;
 public class Pilka {
     private int predkoscPilkiX, predkoscPilkiY, pozycjaPilkiX, pozycjaPilkiY;
     private int szerokoscPilki, dlugoscPilki;
-    private int wynikGracza = 0, wynikKomputera = 0;
-    private int width, height;
+    private int szerokosc, wysokosc;
     private int uderzenia;
     private boolean leciWStroneKomputera = false;
     private Random r = new Random();
 
-    public Pilka(int szerokosc, int dlugosc, int w, int h) {
-        width = w;
-        height = h;
-        szerokoscPilki = szerokosc;
-        dlugoscPilki = dlugosc;
-        resetPilki();
+    public Pilka(int szerokoscPilki, int dlugoscPilki, int szerokosc, int wysokosc) {
+        this.szerokosc = szerokosc;
+        this.wysokosc = wysokosc;
+        this.szerokoscPilki = szerokoscPilki;
+        this.dlugoscPilki = dlugoscPilki;
+        restartPilki();
     }
 
-    public void rysujPilkeIWynik(Graphics2D g2d) {
+    public void rysujPilke(Graphics2D g2d) {
         stanPilki();
         g2d.fillOval(pozycjaPilkiX, pozycjaPilkiY, szerokoscPilki, dlugoscPilki);
-        g2d.setFont(new Font("TimesRoman", Font.BOLD, 28));
-        g2d.drawString(String.valueOf(wynikGracza), width / 4, height);
-        g2d.drawString(String.valueOf(wynikKomputera), width - width / 4, height);
     }
 
-    private void resetPilki() {
+    public void restartPilki() {
         int[] values = {-3, 3};
-        pozycjaPilkiX = width / 2;
-        pozycjaPilkiY = height / 2;
+        pozycjaPilkiX = szerokosc / 2;
+        pozycjaPilkiY = wysokosc / 2;
         predkoscPilkiX = values[r.nextInt(2)];
         predkoscPilkiY = 3;
         uderzenia = 0;
@@ -37,17 +33,25 @@ public class Pilka {
     }
 
     private void stanPilki() {
-        if (pozycjaPilkiY + dlugoscPilki > height || pozycjaPilkiY < 0) { predkoscPilkiY *= -1; }
-        if (pozycjaPilkiX + dlugoscPilki > width) {
-            resetPilki();
-            wynikGracza++;
+        if (pozycjaPilkiY + dlugoscPilki >= wysokosc || pozycjaPilkiY <= 0) { predkoscPilkiY *= -1; }
+         pozycjaPilkiX += predkoscPilkiX;
+         pozycjaPilkiY += predkoscPilkiY;
+    }
+
+    public boolean graczPunkt(){
+        if (pozycjaPilkiX + dlugoscPilki > szerokosc) {
+            restartPilki();
+            return true;
         }
-        if (pozycjaPilkiX < 0) {
-            resetPilki();
-            wynikKomputera++;
+        else return false;
+    }
+
+    public boolean komputerPunkt(){
+            if (pozycjaPilkiX < 0) {
+                restartPilki();
+            return true;
         }
-        pozycjaPilkiX += predkoscPilkiX;
-        pozycjaPilkiY += predkoscPilkiY;
+            else return false;
     }
 
     public void odbijDlugiBok() {
@@ -66,19 +70,6 @@ public class Pilka {
         sprawdzCzyLeciWKomputer();
     }
 
-    public boolean koniec(){
-        if(wynikGracza==10 || wynikKomputera==10){
-            return true;
-        }
-        else return false;
-    }
-
-    public void restart(){
-        wynikKomputera=0;
-        wynikGracza=0;
-        resetPilki();
-    }
-
     public void sprawdzCzyLeciWKomputer(){
         if (predkoscPilkiX > 0) { leciWStroneKomputera = true; }
     }
@@ -94,6 +85,4 @@ public class Pilka {
     public boolean leciWKomputer() { return leciWStroneKomputera; }
 
     public void obliczonoPozycjeKomp() { leciWStroneKomputera = false; }
-
-
 }

@@ -1,42 +1,44 @@
 import java.awt.*;
 
-public class Board {
+public class Plansza {
     private Prostokat komputer, gracz;
     private Pilka pilka;
+    private Wynik wynik;
     private int dlugoscProstokata = 100, szerokoscProstokata = 20, xGracza = 10, xKomputera = 770;
-    private int predkoscKomputer = 5;
     private int szerokoscPilki = 20, dlugoscPilki = 20;
     private int obliczonaPozycjaKomp;
-    private int width, height;
+    private int szerokosc, wysokosc;
 
 
-    public Board(int w, int h) {
-        width = w;
-        height = h;
-        komputer = new Prostokat(dlugoscProstokata, szerokoscProstokata, xKomputera, height);
-        pilka = new Pilka(szerokoscPilki, dlugoscPilki, width, height);
-        gracz = new Prostokat(dlugoscProstokata, szerokoscProstokata, xGracza, height);
+    public Plansza(int szerokosc, int wysokosc) {
+        this.szerokosc = szerokosc;
+        this.wysokosc = wysokosc;
+        komputer = new Prostokat(dlugoscProstokata, szerokoscProstokata, xKomputera, this.wysokosc);
+        pilka = new Pilka(szerokoscPilki, dlugoscPilki, this.szerokosc, this.wysokosc);
+        gracz = new Prostokat(dlugoscProstokata, szerokoscProstokata, xGracza, this.wysokosc);
+        wynik = new Wynik(pilka);
     }
 
     public void wyrysuj(Graphics2D g2d) {
         kolizja();
         animacjaKomputera();
-        komputer.rysujProstokat(g2d);
-        gracz.rysujProstokat(g2d);
-        pilka.rysujPilkeIWynik(g2d);
+        komputer.rysujProstokat(g2d, wysokosc);
+        gracz.rysujProstokat(g2d, wysokosc);
+        pilka.rysujPilke(g2d);
+        wynik.rysujWynik(g2d, szerokosc, wysokosc);
     }
 
-    public void setPredkoscGracz(int v) {
-        gracz.setPredkosc(v);
+    public void ruszProstokatemGracza(int kierunek) {
+        gracz.ruszProstokatem(kierunek);
     }
 
-    public boolean czyKoniec(){
-        return pilka.koniec();
-    }
+    public boolean czyKoniec(){ return wynik.czyKoniec();}
+
     public void restart(){
-        pilka.restart();
-        komputer.restart();
-        gracz.restart();
+        pilka.restartPilki();
+        komputer.restart(wysokosc);
+        gracz.restart(wysokosc);
+        wynik.restartWyniku();
     }
 
     private void kolizja() {
@@ -52,11 +54,11 @@ public class Board {
     private void animacjaKomputera() {
         aktualizujPozycjeKomp();
         if (obliczonaPozycjaKomp > komputer.getY() + dlugoscProstokata) {
-            komputer.setPredkosc(predkoscKomputer);
+            komputer.ruszProstokatem(1);
         } else if (obliczonaPozycjaKomp < komputer.getY()) {
-            komputer.setPredkosc(-1 * predkoscKomputer);
+            komputer.ruszProstokatem(-1);
         } else {
-            komputer.setPredkosc(0);
+            komputer.ruszProstokatem(0);
         }
     }
 
@@ -71,8 +73,8 @@ public class Board {
         int y = pilka.getY();
         int v = pilka.getVy();
         int x = pilka.getX();
-        while (x < width) {
-            if (y + dlugoscPilki > height || y < 0) { v *= -1; }
+        while (x < szerokosc) {
+            if (y + dlugoscPilki >= wysokosc || y <= 0) { v *= -1; }
             x += pilka.getVx();
             y += v;
             if (x + szerokoscPilki > xKomputera) { return y; }
