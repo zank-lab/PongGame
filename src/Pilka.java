@@ -33,7 +33,7 @@ public class Pilka {
         predkoscPilkiX = values[r.nextInt(2)];
         predkoscPilkiY = 3;
         uderzenia = 0;
-        if (predkoscPilkiX > 0) { leciWStroneKomputera = true; }
+        sprawdzCzyLeciWKomputer();
     }
 
     private void stanPilki() {
@@ -57,11 +57,13 @@ public class Pilka {
         predkoscPilkiX *= -1;
         predkoscPilkiY = 7 - r.nextInt(14);
         if (predkoscPilkiY == 0) { predkoscPilkiY = 1; }
+        sprawdzCzyLeciWKomputer();
     }
 
     public void odbijKrotkiBok(){
         predkoscPilkiY *=-1;
         predkoscPilkiX *=-1;
+        sprawdzCzyLeciWKomputer();
     }
 
     public boolean koniec(){
@@ -75,6 +77,10 @@ public class Pilka {
         wynikKomputera=0;
         wynikGracza=0;
         resetPilki();
+    }
+
+    public void sprawdzCzyLeciWKomputer(){
+        if (predkoscPilkiX > 0) { leciWStroneKomputera = true; }
     }
 
     public int getX() { return pozycjaPilkiX; }

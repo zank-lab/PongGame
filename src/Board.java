@@ -8,7 +8,7 @@ public class Board {
     private int szerokoscPilki = 20, dlugoscPilki = 20;
     private int obliczonaPozycjaKomp;
     private int width, height;
-    private boolean pilkaWKomputer = false;
+
 
     public Board(int w, int h) {
         width = w;
@@ -41,8 +41,8 @@ public class Board {
 
     private void kolizja() {
         if (pilka.getX() <= xGracza + szerokoscProstokata) {
-            if (pilka.getY() == gracz.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki == gracz.getY()) { pilka.odbijKrotkiBok(); pilkaWKomputer = true; } // krotkie boki gracza
-            else if (pilka.getY() < gracz.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki > gracz.getY()) { pilka.odbijDlugiBok(); pilkaWKomputer = true; }  // dlugie boki gracza
+            if (pilka.getY() == gracz.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki == gracz.getY()) { pilka.odbijKrotkiBok();} // krotkie boki gracza
+            else if (pilka.getY() < gracz.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki > gracz.getY()) { pilka.odbijDlugiBok();}  // dlugie boki gracza
         } else if (pilka.getX() + szerokoscPilki >= xKomputera) {
             if (pilka.getY() == komputer.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki == komputer.getY()) { pilka.odbijKrotkiBok(); }               // krotkie boki komputera
             else if (pilka.getY() < komputer.getY() + dlugoscProstokata && pilka.getY() + dlugoscPilki > komputer.getY()) { pilka.odbijDlugiBok(); }           // dlugie boki komputera
@@ -61,9 +61,8 @@ public class Board {
     }
 
     public void aktualizujPozycjeKomp() {
-        if (pilka.leciWKomputer() || pilkaWKomputer) {
+        if (pilka.leciWKomputer()) {
             obliczonaPozycjaKomp = obliczPozycjeKomputera();
-            pilkaWKomputer = false;
             pilka.obliczonoPozycjeKomp();
         }
     }
