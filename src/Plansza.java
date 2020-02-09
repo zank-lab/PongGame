@@ -77,7 +77,7 @@ public class Plansza {
             if (y + dlugoscPilki >= wysokosc || y <= 0) { v *= -1; }
             x += pilka.getVx();
             y += v;
-            if (x + szerokoscPilki > xKomputera) { return y; }
+            if (x + szerokoscPilki >= xKomputera) { return y; }
         }
         return 0;
     }
