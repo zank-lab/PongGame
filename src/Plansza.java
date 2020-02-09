@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Random;
 
 public class Plansza {
     private Prostokat komputer, gracz;
@@ -8,7 +9,7 @@ public class Plansza {
     private int szerokoscPilki = 20, dlugoscPilki = 20;
     private int obliczonaPozycjaKomp;
     private int szerokosc, wysokosc;
-
+    private Random blad=new Random();
 
     public Plansza(int szerokosc, int wysokosc) {
         this.szerokosc = szerokosc;
@@ -64,9 +65,13 @@ public class Plansza {
 
     public void aktualizujPozycjeKomp() {
         if (pilka.leciWKomputer()) {
-            obliczonaPozycjaKomp = obliczPozycjeKomputera();
+            obliczonaPozycjaKomp = obliczPozycjeKomputera()+obliczBladKomputera(4);     // im wyzej tym trudniej
             pilka.obliczonoPozycjeKomp();
         }
+    }
+
+    public int obliczBladKomputera(int poziomTrudnosci){
+        return dlugoscProstokata/poziomTrudnosci - blad.nextInt(dlugoscProstokata*2/poziomTrudnosci);
     }
 
     private int obliczPozycjeKomputera() {        // liczy pozycje Y dla jakiej komputer powinien sie ustawic

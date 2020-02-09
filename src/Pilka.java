@@ -7,7 +7,7 @@ public class Pilka {
     private int szerokosc, wysokosc;
     private int uderzenia;
     private boolean leciWStroneKomputera = false;
-    private Random r = new Random();
+    private Random random=new Random();
 
     public Pilka(int szerokoscPilki, int dlugoscPilki, int szerokosc, int wysokosc) {
         this.szerokosc = szerokosc;
@@ -26,7 +26,7 @@ public class Pilka {
         int[] values = {-3, 3};
         pozycjaPilkiX = szerokosc / 2;
         pozycjaPilkiY = wysokosc / 2;
-        predkoscPilkiX = values[r.nextInt(2)];
+        predkoscPilkiX = values[random.nextInt(2)];
         predkoscPilkiY = 3;
         uderzenia = 0;
         sprawdzCzyLeciWKomputer();
@@ -59,7 +59,7 @@ public class Pilka {
         if (predkoscPilkiX < 0) { predkoscPilkiX -= uderzenia / 5; }
         else { predkoscPilkiX += uderzenia / 5; }
         predkoscPilkiX *= -1;
-        predkoscPilkiY = 7 - r.nextInt(14);
+        predkoscPilkiY = 7 - random.nextInt(14);
         if (predkoscPilkiY == 0) { predkoscPilkiY = 1; }
         sprawdzCzyLeciWKomputer();
     }
